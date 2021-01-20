@@ -190,10 +190,10 @@ border: 1px solid #dddddd;
     margin:0;
     width: 270px;
 }
-td, th {
- /* text-align: left; */
-/*padding: 8px; */
-}
+/* td, th {
+  text-align: left; 
+padding: 8px; 
+} */
 
 
 tr:nth-child(even) {
