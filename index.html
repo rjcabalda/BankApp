@@ -54,13 +54,16 @@
 
     <div class="content">
         <div class="dashboard">
-            <table>
-                <tr>
-                    <th>Accnt. No.</th>
-                    <th>Name</th>
-                    <th>Amount</th>
-                </tr>
-                <tr>
+            <table id>
+                <tbody id="tbody">
+                    <tr>
+                        <th>Accnt. No.</th>
+                        <th>Name</th>
+                        <th>Amount</th>
+                    </tr>
+                </tbody>
+
+                <!-- <tr>
                     <td>1</td>
                     <td>Name 1</td>
                     <td>1,000.00</td>
@@ -74,12 +77,12 @@
                     <td>3</td>
                     <td>Name 3</td>
                     <td>2,000.00</td>
-                </tr>
+                </tr> -->
             </table>
         </div>
         <div class="createAccount">
             <div class="title">Create Account</div>
-            <form id="form" class="form" action="" method="post">
+            <form id="form" class="form" action="">
                 <label for="">First Name:</label>
                 <input type="text" id="firstname" name="firstname" class="text" required>
 
@@ -88,11 +91,9 @@
 
                 <label for="">Amount Deposit:</label>
                 <input type="number" id="amount" name="amount" class="text" required>
-
-
-
+                <button class="createBtn" id="createBtn" type="submit">submit</button>
             </form>
-            <input class="createBtn" id="createBtn" type="submit" value="submit">
+
         </div>
     </div>
     <script type="text/javascript" src="javascript.js"></script>
