@@ -17,7 +17,7 @@
     <div class="navigation">
         <ul>
             <li>
-                <a href="#">
+                <a class="side_btn" id="dashboard" href="#">
                     <!-- <i class="fa fa-home" aria-hidden="true"></i> -->
                     <span class="icon"><i class="fa fa-tachometer" aria-hidden="true"></i>
                     </span>
@@ -25,25 +25,25 @@
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a class="side_btn" id="create" href="#">
                     <span class="icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
                     <span class="title">Create Account</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a class="side_btn" id="deposit" href="#">
                     <span class="icon"><i class="fa fa-sign-in" aria-hidden="true"></i></span>
                     <span class="title">Deposit</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a class="side_btn" id="withdraw" href="#">
                     <span class="icon"><i class="fa fa-money" aria-hidden="true"></i></span>
                     <span class="title">Withdraw</span>
                 </a>
             </li>
             <li>
-                <a href="#">
+                <a class="side_btn" id="transfer" href="#">
                     <span class="icon"><i class="fa fa-exchange" aria-hidden="true"></i></span>
                     <span class="title">Transfer</span>
                 </a>
@@ -54,33 +54,19 @@
 
     <div class="content">
         <div class="dashboard">
-            <table id>
-                <tbody id="tbody">
+            <table class="tabledashboard">
+                <thead>
                     <tr>
-                        <th>Accnt. No.</th>
-                        <th>Name</th>
-                        <th>Amount</th>
+                        <th class="col1">Accnt. No.</th>
+                        <th class="col2">Name</th>
+                        <th class="col3head ">Amount</th>
                     </tr>
+                </thead>
+                <tbody id="tbody">
                 </tbody>
-
-                <!-- <tr>
-                    <td>1</td>
-                    <td>Name 1</td>
-                    <td>1,000.00</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>Name 2</td>
-                    <td>2,000.00</td>
-                </tr>
-                <tr>
-                    <td>3</td>
-                    <td>Name 3</td>
-                    <td>2,000.00</td>
-                </tr> -->
             </table>
         </div>
-        <div class="createAccount">
+        <div class="createAccount hide">
             <div class="title">Create Account</div>
             <form id="form" class="form" action="">
                 <label for="">First Name:</label>
@@ -90,7 +76,7 @@
                 <input type="text" id="lastname" name="lastname" class="text" required>
 
                 <label for="">Amount Deposit:</label>
-                <input type="number" id="amount" name="amount" class="text" required>
+                <input type="number" id="amount" name="amount" class="text" step=".01">
                 <button class="createBtn" id="createBtn" type="submit">submit</button>
             </form>
 

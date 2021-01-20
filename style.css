@@ -105,27 +105,12 @@ body{
 } */
 /* --------------------------content---------------------- */
 .content{
+    display: flex;
     margin-left: 300px;
-    /* background: violet; */
     max-width: 100%;
-   /* max-height: 100vh; */
-
-}
-table {
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-  }
-  
-td, th {
-border: 1px solid #dddddd;
-text-align: left;
-padding: 8px;
+    justify-content: center;
 }
 
-tr:nth-child(even) {
-background-color: #dddddd;
-}
 .createAccount {
     margin-top: 50px;
     display: flex;
@@ -152,6 +137,115 @@ background-color: #dddddd;
 }
 .createAccount form .createBtn {
     margin-top: 20px;
+}
+
+.tabledashboard{
+    margin: 0 auto;
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 770px;
+    text-align: center;
+}
+thead{
+    
+border: 1px solid #dddddd;  
+    max-width: 100%;
+    display: inline-block; 
+   
+}
+tbody {
+    
+border: 1px solid #dddddd;
+    width: 99.7%;
+    display: inline-block; 
+    height: 300px;          
+    overflow-y: auto; 
+    overflow-x: hidden;
+}
+
+.noData{
+    width:800px;
+    text-align: center;
+}
+.col1 {
+    height: 30px;
+    padding: 0;
+    margin:0;
+    width: 150px;
+    text-align: center;
+}
+
+.col2 {
+    padding: 0;
+    margin:0;
+    width: 350px;
+}
+.col3 {
+    padding: 0;
+    margin:0;
+    width: 250px;
+}
+.col3head {
+    padding: 0;
+    margin:0;
+    width: 270px;
+}
+td, th {
+ /* text-align: left; */
+/*padding: 8px; */
+}
+
+
+tr:nth-child(even) {
+background-color: #dddddd;
+}
+.show{
+    display: block;
+}
+.hide{
+    display: none;
+}
+@media (max-width:1200px){
+    .tabledashboard{  
+        width: 600px;
+    }
+    .navigation{
+
+        width: 250px;
+    }
+    .content{
+        margin-left: 250px;
+    }
+
+    
+    
+}
+@media (max-width:950px){
+    .tabledashboard{  
+        width: 500px;
+    }
+    .navigation{
+
+        width: 200px;
+    }
+    .content{
+        margin-left: 200px;
+    }
+    
+}
+@media (max-width:580px){
+    .tabledashboard{  
+        width: 400px;
+    } 
+}
+@media (max-width:460px){
+    .tabledashboard{  
+        width: 200px;
+        font-size: 0.8em;
+    }
+    .header span{
+        font-size: 1.5em;
+    }
 }
 @media (max-width:767px){
     .toggle{
