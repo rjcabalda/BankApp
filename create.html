@@ -53,22 +53,23 @@
     <div class="toggle" onclick="toggleMenu()"></div>
 
     <div class="content">
-        <div class="dashboard">
-            <table class="tabledashboard">
-                <thead>
-                    <tr>
-                        <th class="col1">Accnt. No.</th>
-                        <th class="col2">Name</th>
-                        <th class="col3head ">Amount</th>
-                    </tr>
-                </thead>
-                <tbody id="tbody">
-                </tbody>
-            </table>
+        <div class="createAccount">
+            <div class="title"><strong>Create Account</strong></div>
+            <form id="form" class="form" action="">
+                <label for="">First Name:</label>
+                <input type="text" id="firstname" name="firstname" class="input" required>
+
+                <label for="">Last Name:</label>
+                <input type="text" id="lastname" name="lastname" class="input" required>
+
+                <label for="">Amount Deposit:</label>
+                <input type="number" id="amount" name="amount" class="input" step=".01">
+                <button class="createBtn" id="createBtn" type="submit">Save</button>
+            </form>
+
         </div>
     </div>
-    <script type="text/javascript" src="javascript.js">
-    </script>
+    <script type="text/javascript" src="javascript.js"></script>
 </body>
 
 </html>
