@@ -3,40 +3,17 @@
 let createForm = document.querySelector('.form');
 let createBtn = document.getElementById('createBtn');
 let inputs = document.querySelectorAll('.text');
-let side_btn = document.querySelectorAll('.side_btn');
 let dashboard = document.querySelector('.dashboard');
 let create = document.querySelector('.createAccount');
 let users = JSON.parse(localStorage.getItem('users'));
 
-// for (const btn of side_btn) {
-//     btn.addEventListener('click', (e) => {
-//         console.log(btn.id);
-//         switch (btn.id) {
-//             case 'dashboard':
-//                 loadTable();
-//                 break;
-//             case 'create':
-//                 create.classList.remove('hide');
-//                 dashboard.classList.add('hide');
-//                 break;
-//             case 'deposit':
-//                 break;
-//             case 'withdraw':
-//                 break;
-//             case 'transfer':
-//                 break;
-//         }
 
-//     });
-// }
 window.addEventListener('load', (event) => {
     loadTable();
 });
 if (users === null) {
     users = [];
 }
-
-
 
 function toggleMenu() { //onclick listener on toggle button(.toggle)
     let navigation = document.querySelector('.navigation');
@@ -49,6 +26,8 @@ function create_user(user, balance) {
         name: user,
         amount: parseFloat(balance)
     }
+    if (balance === null || balance === undefined || balance === '') { userObj.amount = 0; }
+    console.log(balance);
     let userStatus = true;
     for (const fullname of users) {
         if (fullname.name.toLowerCase() === user.toLowerCase()) userStatus = false;
@@ -71,10 +50,10 @@ function loadTable() {
             let tr = "<tr>";
             let full_name = users[i].name;
             let amount = users[i].amount;
-            let balance = 0;
+            // let balance = 0;
 
-            if (parseInt(amount) > 0) balance = parseFloat(amount).toFixed(2);
-            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + balance + "</td></tr>";
+            // if (parseInt(amount) > 0) balance = parseFloat(amount).toFixed(2);
+            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + amount.toFixed(2) + "</td></tr>";
 
             tbody.innerHTML += tr;
         }
@@ -90,7 +69,6 @@ createBtn?.addEventListener('click', () => {
             var item = elements.item(i);
             user[item.name] = item.value;
         }
-        console.log(user);
         user.fullname = function () {
             return this.firstname + ' ' + this.lastname;
         }
@@ -99,9 +77,6 @@ createBtn?.addEventListener('click', () => {
             input.value = '';
         }
         loadTable();
-    } else {
-        // alert('please fill required field(s).');
-
     }
 });
 

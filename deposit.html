@@ -17,15 +17,14 @@
     <div class="navigation">
         <ul>
             <li>
-                <a class="side_btn" id="dashboard" href="index.html">
-                    <!-- <i class="fa fa-home" aria-hidden="true"></i> -->
+                <a id="dashboard" href="index.html">
                     <span class="icon"><i class="fa fa-tachometer" aria-hidden="true"></i>
                     </span>
                     <span class="title">Dashboard</span>
                 </a>
             </li>
             <li>
-                <a class="side_btn" id="create" href="create.html">
+                <a id="create" href="create.html">
                     <span class="icon"><i class="fa fa-plus-circle" aria-hidden="true"></i></span>
                     <span class="title">Create Account</span>
                 </a>
@@ -53,23 +52,40 @@
     <div class="toggle" onclick="toggleMenu()"></div>
 
     <div class="content">
-        <div class="createAccount">
-            <div class="title"><strong>Create Account</strong></div>
-            <form id="form" class="form" action="">
-                <label for="">First Name:</label>
-                <input type="text" id="firstname" name="firstname" class="input" required>
+        <div class="transaction">
+            <table id="transaction_table" class="transaction_table">
+                <thead>
+                    <tr>
+                        <th class="col1">Accnt. No.</th>
+                        <th class="col2">Name</th>
+                        <th class="col3head ">Amount</th>
+                    </tr>
+                </thead>
+                <tbody class="transaction_tbody" id="tbody">
+                    <tr></tr>
+                    <tr></tr>
+                </tbody>
+            </table>
 
-                <label for="">Last Name:</label>
-                <input type="text" id="lastname" name="lastname" class="input" required>
+            <div class="deposit">
+                <div class="title"><strong>Deposit</strong></div>
+                <form id="deposit_form" class="deposit_form" action="">
+                    <label for="">First Name:</label>
+                    <input type="text" id="firstname" name="firstname" class="input" required>
 
-                <label for="">Amount Deposit:</label>
-                <input type="number" id="amount" name="amount" class="input" step=".0000000000000001">
-                <button class="createBtn" id="createBtn" type="submit">Save</button>
-            </form>
+                    <label for="">Last Name:</label>
+                    <input type="text" id="lastname" name="lastname" class="input" required>
+
+                    <label for="">Amount:</label>
+                    <input type="number" id="amount" name="amount" class="input" step=".0000000000000001" required>
+                    <button class="save_deposit" id="save_deposit">Deposit</button>
+
+                </form>
+            </div>
 
         </div>
     </div>
-    <script type="text/javascript" src="javascript.js"></script>
+    <script type="text/javascript" src="transaction.js"></script>
 </body>
 
 </html>
