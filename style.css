@@ -19,6 +19,9 @@ body{
     background: black;
     align-items: center;
 }
+.header a{
+    text-decoration: none;
+}
 .header span{
     font-size: 2em;
     color: #fff;
@@ -447,7 +450,7 @@ background-color: #dddddd;
 }
 @media (max-width:767px){
     .toggle{
-        position: absolute;
+        position: fixed;
         top: 0;
         right: 0;
         width: 60px;
