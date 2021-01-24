@@ -120,8 +120,8 @@ function send(from_user, to_user, amount) {
         alert(message1 + '\n' + message2);
     }
 
-    // loadTable();
-    // localStorage.setItem('users', JSON.stringify(users));
+    loadTable();
+    localStorage.setItem('users', JSON.stringify(users));
 }
 function getFirstname(fullname) {
     let n = fullname.split(" ");
