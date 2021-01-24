@@ -230,6 +230,37 @@ tbody {
     margin:0;
     width: 270px;
 }
+.col4head{
+    padding: 0;
+    padding-right: 25px;
+    margin:0;
+    width: 20px;
+}
+.col4{
+    padding: 0;
+    padding-right: 10px;
+    margin:5px;
+    width: 40px;
+    /* background: green; */
+    
+      
+}
+.deleteBtn{
+    background: rgb(230, 65, 65);
+    width: 40px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.deleteBtn:hover, .deleteBtn:active{
+    background: rgb(236, 8, 8);
+}
+.dashboardRow{
+    height: 50px;
+}
 .deposit{
     margin: 50px auto;
     display: flex;

@@ -6,14 +6,12 @@ let inputs = document.querySelectorAll('.text');
 let dashboard = document.querySelector('.dashboard');
 let create = document.querySelector('.createAccount');
 let users = JSON.parse(localStorage.getItem('users'));
-
-
-window.addEventListener('load', (event) => {
-    loadTable();
-});
+let tbody = document.getElementById('tbody');
+loadTable();
 if (users === null) {
     users = [];
 }
+
 
 function toggleMenu() { //onclick listener on toggle button(.toggle)
     let navigation = document.querySelector('.navigation');
@@ -21,13 +19,34 @@ function toggleMenu() { //onclick listener on toggle button(.toggle)
     navigation.classList.toggle('active');
     toggle.classList.toggle('active');
 }
+function get_balance(user) {
+    let value = Number(parseFloat(user).toFixed(2)).toLocaleString('en', {
+        minimumFractionDigits: 2
+    });
+    return value;
+}
+function list_users() {
+    return users;
+}
+function loadTable() {
+    if (tbody !== null) {
+        tbody.innerHTML = "";
+        if (parseInt(list_users()?.length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
+        for (let i = 0; i < list_users().length; i++) {
+            let tr = "<tr class='dashboardRow'>";
+            let full_name = list_users()[i].name;
+            let amount = list_users()[i].amount;
+            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + get_balance(amount) + "</td><td class='col4'><div class='deleteBtn'><i class='fa fa-trash' aria-hidden='true'></i></div></td></tr>";
+            tbody.innerHTML += tr;
+        }
+    }
+}
 function create_user(user, balance) {
     let userObj = {
         name: user,
         amount: parseFloat(balance)
     }
     if (balance === null || balance === undefined || balance === '') { userObj.amount = 0; }
-    console.log(balance);
     let userStatus = true;
     for (const fullname of users) {
         if (fullname.name.toLowerCase() === user.toLowerCase()) userStatus = false;
@@ -35,33 +54,22 @@ function create_user(user, balance) {
     if (userStatus) {
         users.push(userObj);
         localStorage.setItem('users', JSON.stringify(users));
+        alert(`${user} successfully created an account.`);
     } else {
         alert('User ' + user + ' already exist.');
     }
 
 }
-function loadTable() {
-    let tbody = document.getElementById('tbody');
-    if (tbody !== null) {
-        tbody.innerHTML = "";
-        if (parseInt(users.length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
-
-        for (let i = 0; i < users.length; i++) {
-            let tr = "<tr>";
-            let full_name = users[i].name;
-            let amount = users[i].amount;
-            // let balance = 0;
-
-            // if (parseInt(amount) > 0) balance = parseFloat(amount).toFixed(2);
-            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + amount.toFixed(2) + "</td></tr>";
-
-            tbody.innerHTML += tr;
+function deleteAccount(user) {
+    for (const [i, fullname] of users.entries()) {
+        if (fullname.name.toLowerCase() === user.toLowerCase()) {
+            users.splice(i, 1);
         }
     }
+    localStorage.setItem('users', JSON.stringify(users));
+
 }
-
 createBtn?.addEventListener('click', () => {
-
     if (createForm.checkValidity()) {
         var elements = createForm.elements;
         var user = {};
@@ -79,6 +87,24 @@ createBtn?.addEventListener('click', () => {
         loadTable();
     }
 });
+
+if (tbody?.children) {// ------------------delete User function Button--------------------
+    let deleteButtons = document.querySelectorAll('.deleteBtn');
+    for (const deleteBtn of deleteButtons) {
+        deleteBtn.addEventListener('click', () => {
+            let user = deleteBtn.parentNode.parentNode.children[1].innerHTML;
+            let confirmDelete = confirm(`Are you sure you want to delete the accout of ${user}`);
+            if (confirmDelete) {
+                deleteAccount(user);
+                loadTable();
+            }
+
+        });
+    }
+}
+
+
+
 
 
 

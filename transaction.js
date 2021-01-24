@@ -23,17 +23,26 @@ function toggleMenu() { //onclick listener on toggle button(.toggle)
     navigation.classList.toggle('active');
     toggle.classList.toggle('active');
 }
+function get_balance(user) {
+    let value = Number(parseFloat(user).toFixed(2)).toLocaleString('en', {
+        minimumFractionDigits: 2
+    });
+    return value;
+}
+function list_users() {
+    return users;
+}
 function loadTable() {
 
     if (tbody !== null) {
         tbody.innerHTML = "";
-        if (parseInt(users.length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
+        if (parseInt(list_users().length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
 
-        for (let i = 0; i < users.length; i++) {
+        for (let i = 0; i < list_users().length; i++) {
             let tr = "<tr class='table_data'>";
-            let full_name = users[i].name;
-            let amount = users[i].amount;
-            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + amount.toFixed(2) + "</td></tr>";
+            let full_name = list_users()[i].name;
+            let amount = list_users()[i].amount;
+            tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + get_balance(amount) + "</td></tr>";
             tbody.innerHTML += tr;
         }
     }
