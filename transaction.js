@@ -56,7 +56,7 @@ function deposit(user, amount) {
         if (account.name.toLowerCase() === user.toLowerCase()) {
             account.amount = parseFloat(amount) + parseFloat(account.amount);
             localStorage.setItem('users', JSON.stringify(users));
-            alert('Acount deposited ' + amount);
+            alert('Acount deposited ₱' + get_balance(amount));
             state = true;
         }
     }
@@ -76,7 +76,7 @@ function withdraw(user, amount) {
             } else {
                 account.amount = parseFloat(account.amount) - parseFloat(amount);
                 localStorage.setItem('users', JSON.stringify(users));
-                alert(user + ' withdrawn ₱' + amount);
+                alert(user + ' withdrawn ₱' + get_balance(amount));
             }
         }
     }
@@ -111,7 +111,7 @@ function send(from_user, to_user, amount) {
         if (insufficient === true) {
             alert(from_user + ' has insufficient balance.');
         } else {
-            alert(`Amount of ${amount} was transferred from ${from_user} to ${to_user}`);
+            alert(`Amount of ₱${get_balance(amount)} was transferred from ${from_user} to ${to_user}`);
         }
 
     } else {

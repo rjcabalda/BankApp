@@ -56,7 +56,7 @@ function create_user(user, balance) {
         localStorage.setItem('users', JSON.stringify(users));
         alert(`${user} successfully created an account.`);
     } else {
-        alert('User ' + user + ' already exist.');
+        alert(`User ${user} already exist.`);
     }
 
 }
