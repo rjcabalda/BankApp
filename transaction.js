@@ -14,6 +14,7 @@ let side_withdraw = document.querySelector('.withdraw');
 let side_transfer = document.querySelector('.transfer');
 let depositRow = document.querySelector('.depositeData')?.children;
 let withdrawRow = document.querySelector('.withdrawData')?.children;
+let transferRow = document.querySelector('.transferData')?.children;
 
 if (users === null) {
     users = [];
@@ -81,7 +82,7 @@ function withdraw(user, amount) {
     }
     loadTable();
     if (!state) alert('This Account is not registered.\nPlease input a valid account.');
-    if (insufficient) alert(user + ' insufficient balance.');
+    if (insufficient) alert(user + ' has insufficient balance.');
 }
 function send(from_user, to_user, amount) {
     let insufficient = false;
@@ -107,14 +108,20 @@ function send(from_user, to_user, amount) {
                 account.amount = parseFloat(amount) + parseFloat(account.amount);
             }
         }
-        alert(`Amount of ${amount} was transferred from ${from_user} to ${to_user}`);
+        if (insufficient === true) {
+            alert(from_user + ' has insufficient balance.');
+        } else {
+            alert(`Amount of ${amount} was transferred from ${from_user} to ${to_user}`);
+        }
+
     } else {
         if (!from_state) message1 = 'Invalid sender';
         if (!to_state) message2 = 'Invalid receiver';
         alert(message1 + '\n' + message2);
     }
-    loadTable();
-    localStorage.setItem('users', JSON.stringify(users));
+
+    // loadTable();
+    // localStorage.setItem('users', JSON.stringify(users));
 }
 function getFirstname(fullname) {
     let n = fullname.split(" ");
@@ -129,14 +136,12 @@ function clickFillDeposit(firstname, lastname, amount) {
     elements.firstname.value = firstname;
     elements.lastname.value = lastname;
     elements.amount.value = amount;
-    console.log(elements);
 }
 function clickFillWithdraw(firstname, lastname, amount) {
     let elements = withdrawForm.elements;
     elements.firstname.value = firstname;
     elements.lastname.value = lastname;
     elements.amount.value = amount;
-    console.log(elements);
 }
 depositBtn?.addEventListener('click', function () {
 
@@ -242,6 +247,41 @@ if (withdrawRow) {
             //     }
             // }
             clickFillWithdraw(firstname, lastname, amount);
+        });
+    }
+}
+
+
+
+function clickFillSender(firstname, lastname) {
+    let elements = transferForm.elements;
+    elements.sender_firstname.value = firstname;
+    elements.sender_lastname.value = lastname;
+}
+function clickFillReceiver(firstname, lastname) {
+    let elements = transferForm.elements;
+    elements.receiver_firstname.value = firstname;
+    elements.receiver_lastname.value = lastname;
+}
+
+
+if (transferRow) {
+    let state = true;
+    for (const row of transferRow) {
+        row.addEventListener('click', function () {
+            let fullname = row.children[1].innerHTML;
+            let n = fullname.split(" ");
+            let firstname = getFirstname(fullname);
+            let lastname = n[n.length - 1];
+            let amount = 0;
+            if (state) {
+                clickFillSender(firstname, lastname);
+                state = false;
+            }
+            else {
+                clickFillReceiver(firstname, lastname);
+                state = true;
+            }
         });
     }
 }
