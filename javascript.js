@@ -97,9 +97,11 @@ if (tbody?.children) {// ------------------delete User function Button----------
             if (confirmDelete) {
                 deleteAccount(user);
                 loadTable();
+                location.reload();
             }
 
         });
+
     }
 }
 
