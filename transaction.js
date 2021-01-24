@@ -12,6 +12,8 @@ let side_btn = document.querySelectorAll('.side_btn');
 let side_deposit = document.querySelector('.deposit');
 let side_withdraw = document.querySelector('.withdraw');
 let side_transfer = document.querySelector('.transfer');
+let depositRow = document.querySelector('.depositeData')?.children;
+let withdrawRow = document.querySelector('.withdrawData')?.children;
 
 if (users === null) {
     users = [];
@@ -39,7 +41,7 @@ function loadTable() {
         if (parseInt(list_users().length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
 
         for (let i = 0; i < list_users().length; i++) {
-            let tr = "<tr class='table_data'>";
+            let tr = "<tr class='dashboardRow'>";
             let full_name = list_users()[i].name;
             let amount = list_users()[i].amount;
             tr += "<td class='col1'>" + (i + 1) + "</td>" + "<td class='col2'>" + full_name + "</td>" + "<td class='col3'>₱ " + get_balance(amount) + "</td></tr>";
@@ -114,6 +116,28 @@ function send(from_user, to_user, amount) {
     loadTable();
     localStorage.setItem('users', JSON.stringify(users));
 }
+function getFirstname(fullname) {
+    let n = fullname.split(" ");
+    let firstname = '';
+    for (let i = 0; i < (n.length - 1); i++) {
+        firstname += ' ' + n[i];
+    }
+    return firstname.trim();
+}
+function clickFillDeposit(firstname, lastname, amount) {
+    let elements = depositForm.elements;
+    elements.firstname.value = firstname;
+    elements.lastname.value = lastname;
+    elements.amount.value = amount;
+    console.log(elements);
+}
+function clickFillWithdraw(firstname, lastname, amount) {
+    let elements = withdrawForm.elements;
+    elements.firstname.value = firstname;
+    elements.lastname.value = lastname;
+    elements.amount.value = amount;
+    console.log(elements);
+}
 depositBtn?.addEventListener('click', function () {
 
     if (depositForm.checkValidity()) {
@@ -185,3 +209,42 @@ transferBtn?.addEventListener('click', function () {
     }
 
 });
+
+
+if (depositRow) {
+    for (const row of depositRow) {
+        row.addEventListener('click', function () {
+            let fullname = row.children[1].innerHTML;
+            let n = fullname.split(" ");
+            let firstname = getFirstname(fullname);
+            let lastname = n[n.length - 1];
+            let amount = 0;
+            // for (const account of users) {
+            //     if (account.name.toLowerCase() === fullname.toLowerCase()) {
+            //         amount = account.amount;
+            //     }
+            // }
+            clickFillDeposit(firstname, lastname, amount);
+        });
+    }
+}
+if (withdrawRow) {
+    for (const row of withdrawRow) {
+        row.addEventListener('click', function () {
+            let fullname = row.children[1].innerHTML;
+            let n = fullname.split(" ");
+            let firstname = getFirstname(fullname);
+            let lastname = n[n.length - 1];
+            let amount = 0;
+            // for (const account of users) {
+            //     if (account.name.toLowerCase() === fullname.toLowerCase()) {
+            //         amount = account.amount;
+            //     }
+            // }
+            clickFillWithdraw(firstname, lastname, amount);
+        });
+    }
+}
+
+
+

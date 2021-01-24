@@ -32,7 +32,7 @@ function loadTable() {
     if (tbody !== null) {
         tbody.innerHTML = "";
         if (parseInt(list_users()?.length) === 0) tbody.innerHTML = "</tr><td class='noData'colspan='3'>No Data</td></tr>";
-        for (let i = 0; i < list_users().length; i++) {
+        for (let i = 0; i < list_users()?.length; i++) {
             let tr = "<tr class='dashboardRow'>";
             let full_name = list_users()[i].name;
             let amount = list_users()[i].amount;

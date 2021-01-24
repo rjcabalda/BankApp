@@ -260,6 +260,7 @@ tbody {
 }
 .dashboardRow{
     height: 50px;
+    cursor: pointer;
 }
 .deposit{
     margin: 50px auto;
