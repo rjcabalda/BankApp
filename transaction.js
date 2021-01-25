@@ -89,6 +89,7 @@ function send(from_user, to_user, amount) {
     let insufficient = false;
     let from_state = false;
     let to_state = false;
+    let amount_error = false;
     let message1 = '';
     let message2 = '';
     for (const check of users) {
@@ -97,22 +98,30 @@ function send(from_user, to_user, amount) {
     }
     if (from_state && to_state) {
         for (const account of users) {
-            if (account.name.toLowerCase() === from_user.toLowerCase()) {
-                state = true;
-                if (parseFloat(account.amount) < parseFloat(amount)) {
-                    insufficient = true;
-                } else {
-                    account.amount = parseFloat(account.amount) - parseFloat(amount);
+            if (parseFloat(amount) > 0) {
+                if (account.name.toLowerCase() === from_user.toLowerCase()) {
+                    state = true;
+                    if (parseFloat(account.amount) < parseFloat(amount)) {
+                        insufficient = true;
+                    } else {
+                        account.amount = parseFloat(account.amount) - parseFloat(amount);
+                    }
+                }
+                if (account.name.toLowerCase() === to_user.toLowerCase() && !insufficient) {
+                    account.amount = parseFloat(amount) + parseFloat(account.amount);
                 }
             }
-            if (account.name.toLowerCase() === to_user.toLowerCase() && !insufficient) {
-                account.amount = parseFloat(amount) + parseFloat(account.amount);
+            else {
+                amount_error = true;
             }
         }
-        if (insufficient === true) {
+
+        if (insufficient) {
             alert(from_user + ' has insufficient balance.');
         } else {
-            alert(`Amount of ${get_balance(amount)} was transferred from ${from_user} to ${to_user}`);
+            if (amount_error) { alert('Invalid amount'); }
+            else { alert(`Amount of ${get_balance(amount)} was transferred from ${from_user} to ${to_user}`); }
+
         }
 
     } else {
