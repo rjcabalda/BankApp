@@ -26,6 +26,9 @@ function get_balance(user) {
     return value;
 }
 function list_users() {
+    if (users === null) {
+        users = [];
+    }
     return users;
 }
 function loadTable() {
