@@ -143,6 +143,16 @@ function clickFillWithdraw(firstname, lastname, amount) {
     elements.lastname.value = lastname;
     elements.amount.value = amount;
 }
+function clickFillSender(firstname, lastname) {
+    let elements = transferForm.elements;
+    elements.sender_firstname.value = firstname;
+    elements.sender_lastname.value = lastname;
+}
+function clickFillReceiver(firstname, lastname) {
+    let elements = transferForm.elements;
+    elements.receiver_firstname.value = firstname;
+    elements.receiver_lastname.value = lastname;
+}
 depositBtn?.addEventListener('click', function () {
 
     if (depositForm.checkValidity()) {
@@ -215,7 +225,6 @@ transferBtn?.addEventListener('click', function () {
 
 });
 
-
 if (depositRow) {
     for (const row of depositRow) {
         row.addEventListener('click', function () {
@@ -250,21 +259,6 @@ if (withdrawRow) {
         });
     }
 }
-
-
-
-function clickFillSender(firstname, lastname) {
-    let elements = transferForm.elements;
-    elements.sender_firstname.value = firstname;
-    elements.sender_lastname.value = lastname;
-}
-function clickFillReceiver(firstname, lastname) {
-    let elements = transferForm.elements;
-    elements.receiver_firstname.value = firstname;
-    elements.receiver_lastname.value = lastname;
-}
-
-
 if (transferRow) {
     let state = true;
     for (const row of transferRow) {

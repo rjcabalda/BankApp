@@ -7,12 +7,11 @@ let dashboard = document.querySelector('.dashboard');
 let create = document.querySelector('.createAccount');
 let users = JSON.parse(localStorage.getItem('users'));
 let tbody = document.getElementById('tbody');
-loadTable();
+
 if (users === null) {
     users = [];
 }
-
-
+loadTable();
 function toggleMenu() { //onclick listener on toggle button(.toggle)
     let navigation = document.querySelector('.navigation');
     let toggle = document.querySelector('.toggle');
@@ -26,9 +25,6 @@ function get_balance(user) {
     return value;
 }
 function list_users() {
-    if (users === null) {
-        users = [];
-    }
     return users;
 }
 function loadTable() {
