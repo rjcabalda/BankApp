@@ -15,6 +15,7 @@ let side_transfer = document.querySelector('.transfer');
 let depositRow = document.querySelector('.depositeData')?.children;
 let withdrawRow = document.querySelector('.withdrawData')?.children;
 let transferRow = document.querySelector('.transferData')?.children;
+let transferFocus = document.querySelectorAll('.transfer_title');
 
 if (users === null) {
     users = [];
@@ -56,7 +57,7 @@ function deposit(user, amount) {
         if (account.name.toLowerCase() === user.toLowerCase()) {
             account.amount = parseFloat(amount) + parseFloat(account.amount);
             localStorage.setItem('users', JSON.stringify(users));
-            alert('Acount deposited ₱' + get_balance(amount));
+            alert('Acount deposited ' + get_balance(amount));
             state = true;
         }
     }
@@ -76,7 +77,7 @@ function withdraw(user, amount) {
             } else {
                 account.amount = parseFloat(account.amount) - parseFloat(amount);
                 localStorage.setItem('users', JSON.stringify(users));
-                alert(user + ' withdrawn ₱' + get_balance(amount));
+                alert(user + ' withdrawn ' + get_balance(amount));
             }
         }
     }
@@ -111,7 +112,7 @@ function send(from_user, to_user, amount) {
         if (insufficient === true) {
             alert(from_user + ' has insufficient balance.');
         } else {
-            alert(`Amount of ₱${get_balance(amount)} was transferred from ${from_user} to ${to_user}`);
+            alert(`Amount of ${get_balance(amount)} was transferred from ${from_user} to ${to_user}`);
         }
 
     } else {
@@ -124,24 +125,22 @@ function send(from_user, to_user, amount) {
     localStorage.setItem('users', JSON.stringify(users));
 }
 function getFirstname(fullname) {
-    let n = fullname.split(" ");
+    let n = fullname?.split(" ");
     let firstname = '';
-    for (let i = 0; i < (n.length - 1); i++) {
+    for (let i = 0; i < (n?.length - 1); i++) {
         firstname += ' ' + n[i];
     }
     return firstname.trim();
 }
-function clickFillDeposit(firstname, lastname, amount) {
+function clickFillDeposit(firstname, lastname) {
     let elements = depositForm.elements;
     elements.firstname.value = firstname;
     elements.lastname.value = lastname;
-    elements.amount.value = amount;
 }
-function clickFillWithdraw(firstname, lastname, amount) {
+function clickFillWithdraw(firstname, lastname) {
     let elements = withdrawForm.elements;
     elements.firstname.value = firstname;
     elements.lastname.value = lastname;
-    elements.amount.value = amount;
 }
 function clickFillSender(firstname, lastname) {
     let elements = transferForm.elements;
@@ -213,10 +212,15 @@ transferBtn?.addEventListener('click', function () {
         user.receiver_fullname = function () {
             return this.receiver_firstname + ' ' + this.receiver_lastname;
         }
-
-        send(user.sender_fullname(), user.receiver_fullname(), user.sender_amount);
-
-        loadTable();
+        if (user.sender_fullname().toLowerCase() === user.receiver_fullname().toLowerCase()) {
+            alert('The Same account')
+        }
+        else {
+            send(user.sender_fullname(), user.receiver_fullname(), user.sender_amount);
+            loadTable();
+        }
+        transferFocus[0]?.classList.remove('transferFocus');
+        transferFocus[1]?.classList.remove('transferFocus');
 
     }
     for (const input of inputs) {
@@ -228,34 +232,28 @@ transferBtn?.addEventListener('click', function () {
 if (depositRow) {
     for (const row of depositRow) {
         row.addEventListener('click', function () {
-            let fullname = row.children[1].innerHTML;
-            let n = fullname.split(" ");
-            let firstname = getFirstname(fullname);
-            let lastname = n[n.length - 1];
-            let amount = 0;
-            // for (const account of users) {
-            //     if (account.name.toLowerCase() === fullname.toLowerCase()) {
-            //         amount = account.amount;
-            //     }
-            // }
-            clickFillDeposit(firstname, lastname, amount);
+
+            let fullname = row?.children[1]?.innerHTML;
+            if (fullname) {
+                let n = fullname?.split(" ");
+                let firstname = getFirstname(fullname);
+                let lastname = n[n?.length - 1];
+                console.log(n === true);
+                clickFillDeposit(firstname, lastname);
+            }
         });
     }
 }
 if (withdrawRow) {
     for (const row of withdrawRow) {
         row.addEventListener('click', function () {
-            let fullname = row.children[1].innerHTML;
-            let n = fullname.split(" ");
-            let firstname = getFirstname(fullname);
-            let lastname = n[n.length - 1];
-            let amount = 0;
-            // for (const account of users) {
-            //     if (account.name.toLowerCase() === fullname.toLowerCase()) {
-            //         amount = account.amount;
-            //     }
-            // }
-            clickFillWithdraw(firstname, lastname, amount);
+            let fullname = row?.children[1]?.innerHTML;
+            if (fullname) {
+                let n = fullname.split(" ");
+                let firstname = getFirstname(fullname);
+                let lastname = n[n.length - 1];
+                clickFillWithdraw(firstname, lastname);
+            }
         });
     }
 }
@@ -263,22 +261,29 @@ if (transferRow) {
     let state = true;
     for (const row of transferRow) {
         row.addEventListener('click', function () {
-            let fullname = row.children[1].innerHTML;
-            let n = fullname.split(" ");
-            let firstname = getFirstname(fullname);
-            let lastname = n[n.length - 1];
-            let amount = 0;
-            if (state) {
-                clickFillSender(firstname, lastname);
-                state = false;
-            }
-            else {
-                clickFillReceiver(firstname, lastname);
-                state = true;
+            let fullname = row?.children[1]?.innerHTML;
+            if (fullname) {
+                let n = fullname.split(" ");
+                let firstname = getFirstname(fullname);
+                let lastname = n[n.length - 1];
+                let elements = transferForm.elements;
+                // if (elements.sender_firstname.value !== "" || elements.sender_lastname.value !== "") { state = false; }
+                // if (elements.receiver_firstname.value === "" || elements.receiver_lastname.value === "") { }
+                if (state) {
+                    clickFillSender(firstname, lastname);
+                    state = false;
+                    transferFocus[0]?.classList.add('transferFocus');
+                    transferFocus[1]?.classList.remove('transferFocus');
+                }
+                else {
+                    clickFillReceiver(firstname, lastname);
+                    state = true;
+                    transferFocus[0]?.classList.remove('transferFocus');
+                    transferFocus[1]?.classList.add('transferFocus');
+                }
             }
         });
     }
 }
-
 
 
