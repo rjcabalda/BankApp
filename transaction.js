@@ -307,6 +307,7 @@ if (withdrawRow) {
 }
 if (transferRow) {
     let elements = transferForm.elements;
+    transferFocus[0]?.classList.add('transferFocus');
     for (const row of transferRow) {
         row.addEventListener('click', function () {
             let fullname = row?.children[1]?.innerHTML;
