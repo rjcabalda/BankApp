@@ -40,6 +40,24 @@ function loadTable() {
         }
     }
 }
+
+
+
+
+function stringFilter(str) {
+    let arrStr = str.split('');
+    let state = true;
+    let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    for (const [i, findspace] of arrStr.entries()) {
+        if (findspace === " ") arrStr.splice(i, 1);
+    }
+    for (const letter of arrStr) {
+        if (!isNaN(letter) || format.test(str)) { state = false; }
+
+    }
+    return state;
+
+}
 function create_user(user, balance) {
     let userObj = {
         name: user,
@@ -68,24 +86,43 @@ function deleteAccount(user) {
     localStorage.setItem('users', JSON.stringify(users));
 
 }
-createBtn?.addEventListener('click', () => {
+function createSubmit() {
+
+
     if (createForm.checkValidity()) {
         var elements = createForm.elements;
         var user = {};
         for (let i = 0; i < elements.length; i++) {
             var item = elements.item(i);
-            user[item.name] = item.value;
+            user[item.name] = item.value.trim();
         }
         user.fullname = function () {
             return this.firstname + ' ' + this.lastname;
         }
-        create_user(user.fullname(), user.amount);
-        for (const input of inputs) {
-            input.value = '';
+        if (stringFilter(user.fullname())) {
+            if (parseFloat(user.amount) > 0) {
+                create_user(user.fullname(), user.amount);
+            }
+            else {
+                alert('Invalid amount.');
+            }
+
+        }
+        else {
+            alert('Invalid input\nInput in first name and last name must letters only.')
+        }
+
+
+        for (let i = 0; i < elements.length; i++) {
+            var item = elements.item(i);
+            item.value = '';
         }
         loadTable();
     }
-});
+    return false;
+
+}
+
 
 if (tbody?.children) {// ------------------delete User function Button--------------------
     let deleteButtons = document.querySelectorAll('.deleteBtn');
@@ -103,6 +140,7 @@ if (tbody?.children) {// ------------------delete User function Button----------
 
     }
 }
+
 
 
 

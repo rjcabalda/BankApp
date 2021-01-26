@@ -383,17 +383,22 @@ tbody {
 .title{
     text-align: center;
 }
-/* .transfer_form .title strong{
+.transfer_form .title strong{
     height: 50px;
-    background: rgb(240, 55, 55);
+    /* background: rgb(240, 55, 55); */
     border-radius: 5px;
     padding: 10px; 
-}*/
-.transferFocus{
-    height: 50px;
+    cursor: pointer;
+}
+.transfer_form .title strong:hover{
+
+    background: rgb(224, 138, 138);
+  
+}
+.transferFocus, .transfer_form .title strong:active{
+
     background: rgb(240, 55, 55);
-    border-radius: 5px;
-    padding: 10px;
+
 }
  .sender{
     margin: 20px; 

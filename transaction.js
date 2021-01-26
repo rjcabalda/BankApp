@@ -16,6 +16,7 @@ let depositRow = document.querySelector('.depositeData')?.children;
 let withdrawRow = document.querySelector('.withdrawData')?.children;
 let transferRow = document.querySelector('.transferData')?.children;
 let transferFocus = document.querySelectorAll('.transfer_title');
+let state = true;
 
 if (users === null) {
     users = [];
@@ -32,6 +33,20 @@ function get_balance(user) {
         minimumFractionDigits: 2
     });
     return `₱${value}`;
+}
+function stringFilter(str) {
+    let arrStr = str.split('');
+    let state = true;
+    let format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    for (const [i, findspace] of arrStr.entries()) {
+        if (findspace === " ") arrStr.splice(i, 1);
+    }
+    for (const letter of arrStr) {
+        if (!isNaN(letter) || format.test(str)) { state = false; }
+
+    }
+    return state;
+
 }
 function list_users() {
     return users;
@@ -53,37 +68,46 @@ function loadTable() {
 }
 function deposit(user, amount) {
     let state = false;
-    for (const account of users) {
-        if (account.name.toLowerCase() === user.toLowerCase()) {
-            account.amount = parseFloat(amount) + parseFloat(account.amount);
-            localStorage.setItem('users', JSON.stringify(users));
-            alert('Acount deposited ' + get_balance(amount));
-            state = true;
+    if (parseFloat(amount) > 0) {
+        for (const account of users) {
+            if (account.name.toLowerCase() === user.toLowerCase()) {
+                account.amount = parseFloat(amount) + parseFloat(account.amount);
+                localStorage.setItem('users', JSON.stringify(users));
+                alert('Acount deposited ' + get_balance(amount));
+                state = true;
+            }
         }
+        loadTable();
+        if (!state) alert('This Account is not registered.\nPlease input a valid account.');
+    } else {
+        alert('Invalid amount.');
     }
-    loadTable();
-    if (!state) alert('This Account is not registered.\nPlease input a valid account.');
+
 
 }
 function withdraw(user, amount) {
     let state = false;
     let insufficient = false;
-    for (const account of users) {
+    if (parseFloat(amount) > 0) {
+        for (const account of users) {
 
-        if (account.name.toLowerCase() === user.toLowerCase()) {
-            state = true;
-            if (parseFloat(account.amount) < parseFloat(amount)) {
-                insufficient = true;
-            } else {
-                account.amount = parseFloat(account.amount) - parseFloat(amount);
-                localStorage.setItem('users', JSON.stringify(users));
-                alert(user + ' withdrawn ' + get_balance(amount));
+            if (account.name.toLowerCase() === user.toLowerCase()) {
+                state = true;
+                if (parseFloat(account.amount) < parseFloat(amount)) {
+                    insufficient = true;
+                } else {
+                    account.amount = parseFloat(account.amount) - parseFloat(amount);
+                    localStorage.setItem('users', JSON.stringify(users));
+                    alert(user + ' withdrawn ' + get_balance(amount));
+                }
             }
         }
+        loadTable();
+        if (!state) alert('This Account is not registered.\nPlease input a valid account.');
+        if (insufficient) alert(user + ' has insufficient balance.');
+    } else {
+        alert('Invalid amount.');
     }
-    loadTable();
-    if (!state) alert('This Account is not registered.\nPlease input a valid account.');
-    if (insufficient) alert(user + ' has insufficient balance.');
 }
 function send(from_user, to_user, amount) {
     let insufficient = false;
@@ -169,14 +193,18 @@ depositBtn?.addEventListener('click', function () {
         let user = {};
         for (let i = 0; i < elements.length; i++) {
             let item = elements.item(i);
-            user[item.name] = item.value;
+            user[item.name] = item.value.trim();
         }
 
         user.fullname = function () {
             return this.firstname + ' ' + this.lastname;
         }
-        deposit(user.fullname(), user.amount);
-
+        if (stringFilter(user.fullname())) {
+            deposit(user.fullname(), user.amount);
+        }
+        else {
+            alert('Invalid input\nInput in first name and last name must letters only.')
+        }
         loadTable();
 
     }
@@ -192,12 +220,18 @@ withdrawBtn?.addEventListener('click', function () {
     if (withdrawForm.checkValidity()) {
         for (let i = 0; i < elements.length; i++) {
             let item = elements.item(i);
-            user[item.name] = item.value;
+            user[item.name] = item.value.trim();
         }
         user.fullname = function () {
             return this.firstname + ' ' + this.lastname;
         }
-        withdraw(user.fullname(), user.amount);
+        if (stringFilter(user.fullname())) {
+            withdraw(user.fullname(), user.amount);
+        }
+        else {
+            alert('Invalid input\nInput in first name and last name must letters only.')
+        }
+
         loadTable();
     }
     for (const input of inputs) {
@@ -212,7 +246,7 @@ transferBtn?.addEventListener('click', function () {
     if (transferForm.checkValidity()) {
         for (let i = 0; i < elements.length; i++) {
             let item = elements.item(i);
-            user[item.name] = item.value;
+            user[item.name] = item.value.trim();
         }
 
         user.sender_fullname = function () {
@@ -221,13 +255,19 @@ transferBtn?.addEventListener('click', function () {
         user.receiver_fullname = function () {
             return this.receiver_firstname + ' ' + this.receiver_lastname;
         }
-        if (user.sender_fullname().toLowerCase() === user.receiver_fullname().toLowerCase()) {
-            alert('The Same account')
+        if (stringFilter(user.sender_fullname()) && stringFilter(user.receiver_fullname())) {
+            if (user.sender_fullname().toLowerCase() === user.receiver_fullname().toLowerCase()) {
+                alert('The Same account. \nPlease input different Account.');
+            }
+            else {
+                send(user.sender_fullname(), user.receiver_fullname(), user.sender_amount);
+                loadTable();
+            }
         }
         else {
-            send(user.sender_fullname(), user.receiver_fullname(), user.sender_amount);
-            loadTable();
+            alert('Invalid input\nInput in first name and last name must letters only.')
         }
+
         transferFocus[0]?.classList.remove('transferFocus');
         transferFocus[1]?.classList.remove('transferFocus');
 
@@ -247,7 +287,6 @@ if (depositRow) {
                 let n = fullname?.split(" ");
                 let firstname = getFirstname(fullname);
                 let lastname = n[n?.length - 1];
-                console.log(n === true);
                 clickFillDeposit(firstname, lastname);
             }
         });
@@ -267,7 +306,7 @@ if (withdrawRow) {
     }
 }
 if (transferRow) {
-    let state = true;
+
     for (const row of transferRow) {
         row.addEventListener('click', function () {
             let fullname = row?.children[1]?.innerHTML;
@@ -280,19 +319,42 @@ if (transferRow) {
                 // if (elements.receiver_firstname.value === "" || elements.receiver_lastname.value === "") { }
                 if (state) {
                     clickFillSender(firstname, lastname);
-                    state = false;
-                    transferFocus[0]?.classList.add('transferFocus');
                     transferFocus[1]?.classList.remove('transferFocus');
+                    transferFocus[0]?.classList.add('transferFocus');
+
                 }
                 else {
                     clickFillReceiver(firstname, lastname);
-                    state = true;
-                    transferFocus[0]?.classList.remove('transferFocus');
                     transferFocus[1]?.classList.add('transferFocus');
+                    transferFocus[0]?.classList.remove('transferFocus');
                 }
             }
         });
     }
 }
 
+for (tranferBtn of transferFocus) {
+    tranferBtn.addEventListener('click', function () {
+        if (this.innerHTML == 'Sender') {
+            transferFocus[0].classList.add('transferFocus');
+            transferFocus[1].classList.remove('transferFocus');
+            state = true
+        }
+        else if (this.innerHTML == 'Receiver') {
+            state = false;
+            transferFocus[1].classList.add('transferFocus');
+            transferFocus[0].classList.remove('transferFocus');
+        }
 
+    });
+}
+
+// tranferInput()
+// function tranferInput() {
+//     let elements = transferForm.elements;
+//     elements.sender_firstname.addEventListener('input', () => {
+//         transferFocus[0].classList.remove('transferFocus');
+//         transferFocus[1].classList.remove('transferFocus');
+//     });
+//     console.log();
+// }

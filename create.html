@@ -55,7 +55,7 @@
     <div class="content">
         <div class="createAccount">
             <div class="title"><strong>Create Account</strong></div>
-            <form id="form" class="form" action="">
+            <form id="form" class="form" action="" onsubmit="return createSubmit()">
                 <label for="">First Name:</label>
                 <input type="text" id="firstname" name="firstname" class="input" required>
 
@@ -64,7 +64,7 @@
 
                 <label for="">Amount Deposit:</label>
                 <input type="number" id="amount" name="amount" class="input" step=".0000000000000001">
-                <button class="createBtn" id="createBtn" type="submit">Save</button>
+                <button class="createBtn" id="createBtn">Save</button>
             </form>
 
         </div>
