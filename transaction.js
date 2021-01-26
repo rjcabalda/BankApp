@@ -144,7 +144,7 @@ function send(from_user, to_user, amount) {
             alert(from_user + ' has insufficient balance.');
         } else {
             if (amount_error) { alert('Invalid amount'); }
-            else { alert(`Amount of ${get_balance(amount)} was transferred from ${from_user} to ${to_user}`); }
+            else { alert(`${from_user} transferred ${get_balance(amount)} to ${to_user}`); }
 
         }
 
@@ -306,7 +306,7 @@ if (withdrawRow) {
     }
 }
 if (transferRow) {
-
+    let elements = transferForm.elements;
     for (const row of transferRow) {
         row.addEventListener('click', function () {
             let fullname = row?.children[1]?.innerHTML;
@@ -314,9 +314,6 @@ if (transferRow) {
                 let n = fullname.split(" ");
                 let firstname = getFirstname(fullname);
                 let lastname = n[n.length - 1];
-                let elements = transferForm.elements;
-                // if (elements.sender_firstname.value !== "" || elements.sender_lastname.value !== "") { state = false; }
-                // if (elements.receiver_firstname.value === "" || elements.receiver_lastname.value === "") { }
                 if (state) {
                     clickFillSender(firstname, lastname);
                     transferFocus[1]?.classList.remove('transferFocus');
@@ -329,6 +326,13 @@ if (transferRow) {
                     transferFocus[0]?.classList.remove('transferFocus');
                 }
             }
+        });
+    }
+
+    for (const input of elements) {
+        input.addEventListener('input', () => {
+            transferFocus[0]?.classList.remove('transferFocus');
+            transferFocus[1]?.classList.remove('transferFocus');
         });
     }
 }
@@ -349,12 +353,3 @@ for (tranferBtn of transferFocus) {
     });
 }
 
-// tranferInput()
-// function tranferInput() {
-//     let elements = transferForm.elements;
-//     elements.sender_firstname.addEventListener('input', () => {
-//         transferFocus[0].classList.remove('transferFocus');
-//         transferFocus[1].classList.remove('transferFocus');
-//     });
-//     console.log();
-// }

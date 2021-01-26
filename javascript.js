@@ -40,10 +40,6 @@ function loadTable() {
         }
     }
 }
-
-
-
-
 function stringFilter(str) {
     let arrStr = str.split('');
     let state = true;
@@ -87,8 +83,6 @@ function deleteAccount(user) {
 
 }
 function createSubmit() {
-
-
     if (createForm.checkValidity()) {
         var elements = createForm.elements;
         var user = {};
@@ -106,13 +100,10 @@ function createSubmit() {
             else {
                 alert('Invalid amount.');
             }
-
         }
         else {
             alert('Invalid input\nInput in first name and last name must letters only.')
         }
-
-
         for (let i = 0; i < elements.length; i++) {
             var item = elements.item(i);
             item.value = '';
@@ -122,8 +113,6 @@ function createSubmit() {
     return false;
 
 }
-
-
 if (tbody?.children) {// ------------------delete User function Button--------------------
     let deleteButtons = document.querySelectorAll('.deleteBtn');
     for (const deleteBtn of deleteButtons) {
